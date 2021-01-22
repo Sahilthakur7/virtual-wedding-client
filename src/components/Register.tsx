@@ -9,7 +9,7 @@ interface urlParams {
   code: string
 }
 
-const googleAuthHref = `${GOOGLE_AUTH_URL}?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&scope=openid%20email&include_granted_scopes=true&response_type=code&redirect_uri=${process.env.REACT_APP_AUTH_REDIRECT}`
+const googleAuthHref = `${GOOGLE_AUTH_URL}?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&scope=openid%20profile&include_granted_scopes=true&response_type=code&redirect_uri=${process.env.REACT_APP_AUTH_REDIRECT}`
 const Register = () => {
 
   useEffect(() => {
