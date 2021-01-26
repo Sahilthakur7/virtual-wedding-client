@@ -1,5 +1,6 @@
-import axios from "axios";
-import { GOOGLE_TOKEN_URL, GOOGLE_USER_INFO_ENDPOINT } from "../constants";
+import axios from 'axios';
+import { GOOGLE_TOKEN_URL, GOOGLE_USER_INFO_ENDPOINT } from '../constants';
+import { signupOrLoginUser } from '../services/users';
 
 const fetchGoogleUserToken = async (code: string) => {
   try {
@@ -8,18 +9,24 @@ const fetchGoogleUserToken = async (code: string) => {
       client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
       client_secret: process.env.REACT_APP_GOOGLE_CLIENT_SECRET,
       redirect_uri: process.env.REACT_APP_AUTH_REDIRECT,
-      grant_type: "authorization_code",
+      grant_type: 'authorization_code',
     });
 
     if (res && res.status === 200) {
-      console.log("idtoken should be avialable---", res.data.access_token);
       const userInfo = await fetchUserInfo(
         res && res.data && res.data.access_token
       );
-      console.log("userInfo---", userInfo);
+
+      const userObj = {
+        email: userInfo.data.email,
+        name: userInfo.data.name,
+        auth: 'google',
+      };
+
+      const userResponse = await signupOrLoginUser(userObj);
     }
   } catch (error) {
-    console.log("error", error);
+    console.log('error', error);
   }
 };
 
